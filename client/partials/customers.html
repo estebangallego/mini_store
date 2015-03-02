@@ -1,0 +1,25 @@
+<div ng-controller="customersController">  
+	<div class="one-half column">
+	    <form>
+	    	Customer Name: <input ng-model='newCustomer.name' type="text" placeholder="{{ err }}">
+	    	<input class="button-primary" type="submit" value="Add" ng-click='addCustomer()'>
+	    </form>
+	</div>
+    <div class="one-half column" >
+    	<input ng-model="filter_name" type="text" placeholder="Search">
+
+    </div>
+    <table class="u-full-width">
+    	<tr>
+    		<td>Customer Name</td>
+    		<td>Created Date</td>
+    		<td>Actions</td>
+    	</tr>
+
+    	<tr ng-repeat="customer in customers | filter: filter_name">
+    		<td ng-bind="customer.name"></td>
+    		<td ng-bind="customer.created_at | date : 'MMMM d, yyyy'"></td>
+    		<td><a class="button button-primary" href="#/customers" ng-click="removeCustomer(customer)">Remove</a></td>
+    	</tr>
+    </table>
+</div>
