@@ -5,4 +5,13 @@ You should have a customers controller and an orders controller on the Express s
 3. Have the appropriate factories.
 4. Use two models in Mongoose called Customer and Order
 
-add a new order customers(pull from database), quantity, items(pull from database), date
+
+
+orders page
+
+pull customers from database. done
+add a new orders to database (customer, product, qty, date)
+display orders in page 
+search box
+
+

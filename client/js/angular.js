@@ -15,7 +15,7 @@ store_app.config(function ($routeProvider) {
     });
 });
 
-// Factory
+// Customer factory
 store_app.factory('customerFactory', function($http) 
 {
 	var factory = {};
@@ -55,7 +55,7 @@ store_app.factory('customerFactory', function($http)
   return factory;
 });
 
-// controller
+// Customers controller
 store_app.controller('customersController', function ($scope, customerFactory) {
 	
 	
@@ -85,7 +85,6 @@ store_app.controller('customersController', function ($scope, customerFactory) {
 		
 	}
 
-
 	$scope.removeCustomer = function(customer){
 		// console.log('controller', customer);
         $scope.customers.splice($scope.customers.indexOf(customer), 1);
@@ -96,19 +95,106 @@ store_app.controller('customersController', function ($scope, customerFactory) {
 
 });
 
-
-store_app.controller('ordersController', function ($scope) 
+// Orders factory
+store_app.factory('orders_factory', function($http) 
 {
-    $scope.customers = [];
+    var factory = {};
+    var customers = [];
+    var products = [{ name: 'Dojo t-shirt'}, { name: 'Dojo jeans'}, { name: 'Dojo hat'}];
     
-    function get_customers()
+    factory.get_orders = function(callback)
     {
-        orders_factory.get_customers(function (data)
-        {
 
+        $http.get('/get_orders').success(function(output)
+        {
+            callback(output);
+            // console.log(output);
         })
     }
 
-  $scope.message = 'We are using another controller';
+
+    factory.getCustomers = function (callback)
+    {
+        $http.get('/get_customers').success(function(output)
+        {
+            callback(output);
+        })
+        
+        // console.log('factory', customers);
+    }
+
+    factory.get_products = function (callback)
+    {
+        callback(products);
+    }
+
+    factory.add_order = function(new_order)
+    {
+        new_order.created_at = new Date();
+        $http.post('/add_order', new_order).success(function()
+        {
+           
+        });
+        // console.log('in factory', new_order);
+    }
+
+    factory.remove_order = function (callback){
+        console.log('made it to factory', callback);
+        $http.post('/remove_order', callback).success(function(){
+            
+        })
+    }
+
+
+
+  return factory;
+});
+
+
+//Orders controller
+store_app.controller('ordersController', function ($scope, orders_factory) 
+{
+    $scope.new_order = {};
+
+
+    function get_orders(){
+    orders_factory.get_orders(function (data)
+        {
+            $scope.orders = data;
+            // console.log(data);
+        })
+    }
+    get_orders();
+
+    orders_factory.getCustomers(function (data)
+    {
+        $scope.customers = data;
+        // console.log(data);
+    })
+
+    orders_factory.get_products(function (callback)
+    {
+        $scope.products = callback;
+        // console.log(callback);
+    })
+
+
+
+    $scope.add_order = function (new_order)
+    {
+        orders_factory.add_order(new_order);
+        get_orders();
+        // orders_factory.add_order($scope.add_product);
+        // console.log('made it to controller', new_order);     
+    }
+
+    $scope.remove_order = function(callback){
+        console.log('controller', callback);
+        // $scope.customers.splice($scope.customers.indexOf(customer), 1);
+        orders_factory.remove_order(callback);
+        get_orders();
+
+    }
+
 
 });

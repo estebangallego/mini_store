@@ -2,23 +2,22 @@
    <div class="one-half column">
 	    <form>
 	    	<label>Customer:</label>
-	    	<select class="u-full-width">
-	    		<option>esteban</option>
-	    		<option>jun</option>
-	    		<option>michael</option>
+	    	<select class="u-full-width" ng-model="new_order.customer">
+	    		<option ng-repeat="customer in customers">{{customer.name}}</option>
 	    	</select>
-	    	<label>Order</label>
-	    	<select>
+
+	    	<!-- <input ng-model='new_order.name' type="text" placeholder="Name"> -->
+	    	<label>Quantity</label>
+	    	<select ng-model="new_order.qty">
 	    		<option>1</option>
 	    		<option>2</option>
 	    		<option>3</option>
 	    	</select>
-	    	<select>
-	    		<option>Dojo T-shirt</option>
-	    		<option>Dojo Jeans</option>
-	    		<option>Dojo Hat</option>
+	    	<label>Product</label>
+	    	<select ng-model="new_order.product">
+	    		<option ng-repeat="product in products">{{product.name}}</option>
 	    	</select>
-	    	<input class="button-primary" type="submit" value="Add" ng-click='addProduct()'>
+	    	<input class="button-primary" type="submit" value="Add" ng-click="add_order(new_order)">
 	    </form>
 	</div>
     <div class="one-half column" >
@@ -31,18 +30,14 @@
     		<td>Product</td>
     		<td>Quantity</td>
     		<td>Date</td>
+    		<td>Action</td>
     	</tr>
-    	<tr>
-    		<td>Esteban</td>
-    		<td>T-shirt</td>
-    		<td>3</td>
-    		<td>April 3 2015</td>
-    	</tr>
-    	 <tr>
-    		<td>Esteban</td>
-    		<td>T-shirt</td>
-    		<td>3</td>
-    		<td>April 3 2015</td>
+    	<tr ng-repeat="order in orders | filter: filter_name">
+    		<td>{{ order.customer }}</td>
+    		<td>{{ order.product }}</td>
+    		<td>{{ order.qty }}</td>
+    		<td>{{ order.created_at | date : 'MMMM d, yyyy'}}</td>
+    		<td><a class="button button-primary" href="#/orders" ng-click="remove_order(order)">Remove</a></td>
     	</tr>
     </table>
     {{ message }}
