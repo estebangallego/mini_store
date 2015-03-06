@@ -23,12 +23,12 @@ module.exports = (function() {
 				customer.save(function(err, result){
 					if (err)
 					{
-						console.log('err', err);
+						// console.log('err', err);
 						res.json({error: "Something went wrong"});	
 					}
 					else
 					{
-						console.log('we made it!');
+						// console.log('we made it!');
 						res.json(result);
 						//DON'T FORGET THIS LINE
 					}

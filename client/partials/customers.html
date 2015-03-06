@@ -1,8 +1,13 @@
 <div ng-controller="customersController">  
 	<div class="one-half column">
-	    <form>
-	    	Customer Name: <input ng-model='newCustomer.name' type="text" placeholder="{{ err }}">
-	    	<input class="button-primary" type="submit" value="Add" ng-click='addCustomer()'>
+	    <form name="form" class="form" novalidate>
+	    	Customer Name: <input name="customer_name" ng-model='newCustomer.name' ng-minlength=3 ng-maxlength=20 required type="text" placeholder="{{ err }}">
+	    	<input class="button-primary" type="submit" value="Add" ng-click='addCustomer()' ng-disabled="form.$invalid">
+        <div class="alert alert-danger" ng-show="form.customer_name.$dirty && form.customer_name.$invalid">
+            <small class="error" ng-show="form.customer_name.$error.required">Please input a name</small>
+            <small class="error" ng-show="form.customer_name.$error.minlength">Your name is required to be at least 3 characters</small>
+            <small class="error" ng-show="form.customer_name.$error.maxlength">Your name can't be longer than 20 characters</small>
+        </div>
 	    </form>
 	</div>
     <div class="one-half column" >

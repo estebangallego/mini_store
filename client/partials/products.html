@@ -1,0 +1,60 @@
+<div ng-controller="productsController">  
+	<div class="three columns">
+    <input class="u-full-width" ng-model="filter_name" type="text" placeholder="Search">
+    <form name="form" class="form" novalidate>
+            <h4>Add Products</h4>
+            <label>Name</label>
+
+
+            <input class="u-full-width" type="text" name="product_name" ng-model="new_product.product_name" ng-minlength=5 ng-maxlength=20 required>
+            <div class="alert alert-danger" ng-show="form.product_name.$dirty && form.product_name.$invalid">
+                <small class="error" ng-show="form.product_name.$error.required">Please input a product name</small>
+                <small class="error" ng-show="form.product_name.$error.minlength">Your product name is required to be at least 5 characters</small>
+                <small class="error" ng-show="form.product_name.$error.maxlength">Your product name cannot be longer than 20 characters</small>
+            </div>
+
+            <label>Image</label>
+            <input class="u-full-width" type="url" name="product_image" ng-model="new_product.product_image" required>
+
+
+            <div class="alert alert-danger" ng-show="form.product_image.$dirty && form.product_image.$invalid">
+                <small class="error" ng-show="form.product_image.$error.required">Please input the link for your image</small>
+                <small class="error" ng-show="form.product_image.$error.url">http://website.com/image.jpg</small>
+            </div>
+
+
+            <label>Description</label>
+
+            <textarea class="u-full-width" name="product_description" ng-model="new_product.product_description" ng-minlength=10 ng-maxlength=20 required></textarea>
+            <div class="alert alert-danger" ng-show="form.product_description.$dirty && form.product_description.$invalid">
+                <small class="error" ng-show="form.product_description.$error.required">Please input a product description</small>
+                <small class="error" ng-show="form.product_description.$error.minlength">Your product description is required to be at least 10 characters</small>
+                <small class="error" ng-show="form.product_description.$error.maxlength">Your product description cannot be longer than 20 characters</small>
+            </div>
+
+            <label>Quantity</label>
+
+            <select class="u-full-width" ng-model="new_product.product_qty" required>
+                <option>1</option>
+                <option>2</option>    
+                <option>3</option>    
+                <option>4</option>    
+                <option>5</option>    
+                <option>6</option>    
+            </select>
+
+           <input class="button-primary u-full-width" name="buton" type="submit" value="Add Product" ng-click="add_product(new_product)" ng-disabled="form.$invalid">
+
+          <div class="alert alert-danger" ng-show="form.$invalid">
+               <small>All inputs are require</small>
+          </div>
+            <br />
+    </form>
+	</div>
+    <div class="nine columns" >
+        <div ng-repeat="product in products| filter: filter_name" class="two columns">
+          <img src=" {{product.product_image}}">
+          <p>{{product.product_name}}</p>
+        </div>
+    </div>
+</div>

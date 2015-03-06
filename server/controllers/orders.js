@@ -29,12 +29,12 @@ module.exports = (function() {
 		orders.save(function(err, result){
 			if (err)
 			{
-				console.log('err', err);
+				// console.log('err', err);
 				res.json({error: "Something went wrong"});	
 			}
 			else
 			{
-				console.log('we made it!');
+				// console.log('we made it!');
 				res.json(result);
 				//DON'T FORGET THIS LINE
 			}
@@ -47,7 +47,7 @@ module.exports = (function() {
 		Order.find({}, function(err, results)
 		{
 			if(err){
-				console.log(err);
+				// console.log(err);
 
 			}else{
 				// console.log(results);

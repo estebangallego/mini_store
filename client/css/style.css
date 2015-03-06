@@ -1,0 +1,12 @@
+.form input.ng-invalid,
+.form select.ng-invalid,
+.form textarea.ng-invalid
+{
+  border: 1px solid red !important;
+}
+.form input.ng-valid,
+.form select.ng-valid,
+.form textarea.ng-valid
+{
+  border: 1px solid green !important;
+}

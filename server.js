@@ -5,7 +5,8 @@ var bodyParser = require('body-parser');
 app.use(express.static(path.join(__dirname, './client')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
+// var multer  = require('multer')
+// app.use(multer({ dest: './uploads/'})
 // this line requires and runs the code from our routes.js file and passes it app so that we can attach our routing rules to our express application!
 require('./config/mongoose.js');
 require('./config/routes.js')(app);

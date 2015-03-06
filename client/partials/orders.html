@@ -1,23 +1,26 @@
 <div ng-controller="ordersController">
    <div class="one-half column">
-	    <form>
+	    <form class="form" name="form" novalidate>
 	    	<label>Customer:</label>
-	    	<select class="u-full-width" ng-model="new_order.customer">
+	    	<select class="u-full-width" ng-model="new_order.customer" required>
 	    		<option ng-repeat="customer in customers">{{customer.name}}</option>
 	    	</select>
 
 	    	<!-- <input ng-model='new_order.name' type="text" placeholder="Name"> -->
 	    	<label>Quantity</label>
-	    	<select ng-model="new_order.qty">
+	    	<select ng-model="new_order.qty" required>
 	    		<option>1</option>
 	    		<option>2</option>
 	    		<option>3</option>
 	    	</select>
 	    	<label>Product</label>
-	    	<select ng-model="new_order.product">
-	    		<option ng-repeat="product in products">{{product.name}}</option>
+	    	<select ng-model="new_order.product" required>
+	    		<option ng-repeat="product in products">{{product.product_name}}</option>
 	    	</select>
-	    	<input class="button-primary" type="submit" value="Add" ng-click="add_order(new_order)">
+	    	<input class="button-primary" type="submit" value="Add" ng-click="add_order(new_order)" ng-disabled="form.$invalid">
+            <div class="alert alert-danger" ng-show="form.$invalid">
+                <small>All fields are require</small>
+            </div>
 	    </form>
 	</div>
     <div class="one-half column" >

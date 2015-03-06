@@ -10,6 +10,12 @@ store_app.config(function ($routeProvider) {
     .when('/orders',{
         templateUrl: 'partials/orders.html'
     })
+    .when('/products',{
+    templateUrl: 'partials/products.html'
+    })
+    .when('/', {
+        templateUrl: 'partials/dashboard.html'
+    })
     .otherwise({
       redirectTo: '/'
     });
@@ -100,7 +106,7 @@ store_app.factory('orders_factory', function($http)
 {
     var factory = {};
     var customers = [];
-    var products = [{ name: 'Dojo t-shirt'}, { name: 'Dojo jeans'}, { name: 'Dojo hat'}];
+    var products = [];
     
     factory.get_orders = function(callback)
     {
@@ -125,8 +131,14 @@ store_app.factory('orders_factory', function($http)
 
     factory.get_products = function (callback)
     {
-        callback(products);
+        $http.get('/get_products').success(function(products){
+            callback(products);
+            console.log(products);    
+        })
+        
     }
+
+
 
     factory.add_order = function(new_order)
     {
@@ -161,16 +173,19 @@ store_app.controller('ordersController', function ($scope, orders_factory)
     orders_factory.get_orders(function (data)
         {
             $scope.orders = data;
-            // console.log(data);
+            console.log(data);
         })
     }
     get_orders();
+
+
 
     orders_factory.getCustomers(function (data)
     {
         $scope.customers = data;
         // console.log(data);
     })
+
 
     orders_factory.get_products(function (callback)
     {
@@ -196,5 +211,117 @@ store_app.controller('ordersController', function ($scope, orders_factory)
 
     }
 
+});
+// products factory
+store_app.factory('product_factory', function($http) 
+{
+    var factory = {};
+    var new_product = [];
+
+
+    factory.get_products = function(callback)
+    {
+        // console.log('hi');
+        $http.get('/get_products').success(function(output){
+            callback(output);
+            // console.log('in factory', output);
+        })
+    }
+
+    factory.add_product = function(new_product)
+    {
+        $http.post('/add_product', new_product).success(function()
+        {
+
+        })
+    }
+
+  return factory;
+});
+
+//products controller
+store_app.controller('productsController', function ($scope, product_factory) 
+{   
+    $scope.hi_message = 'hello world';
+
+    function get_products(){
+    product_factory.get_products(function (data)
+        {
+            $scope.products = data;
+
+            // console.log(data);         
+        })
+    } 
+    get_products(); 
+   
+
+    $scope.add_product = function(new_product)
+    {
+        product_factory.add_product(new_product);
+        get_products();
+        // $scope.new_product = null;
+
+    }
+});
+
+//dashboard factory 
+store_app.factory('dashboard_factory', function($http) 
+{
+    var factory = {};
+    var products = [];
+    var orders = [];
+    var customers = [{name: 'hi'}];
+    
+
+    factory.get_products_dash = function (callback)
+    {
+        callback(products);
+         // console.log(products);
+        $http.get('/get_products').success(function(products){
+            callback(products);
+            // console.log('factory', products);    
+        })
+        
+    }
+
+    factory.get_orders = function (callback)
+    {
+        $http.get('/get_orders').success(function(orders){
+            callback(orders);    
+        })  
+    }
+
+    factory.get_customers = function (callback)
+    {
+        $http.get('/get_customers').success(function(customers){
+            callback(customers);    
+        })
+        
+    }
+
+
+  return factory;
+});
+
+
+// dashboard controller
+store_app.controller('dashboard', function ($scope, dashboard_factory){
+    $scope.hi = 'hello world';
+    
+    dashboard_factory.get_products_dash(function (callback)
+    {
+        $scope.products = callback;
+        // console.log(callback);         
+    })
+    
+    dashboard_factory.get_orders(function (callback){
+        $scope.orders = callback;
+        // console.log(callback);
+    })
+
+    dashboard_factory.get_customers(function (callback){
+        $scope.customers = callback;
+        console.log(callback);
+    })
 
 });

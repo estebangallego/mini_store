@@ -1,0 +1,20 @@
+<div ng-controller="dashboard">
+	<div class="three columns">
+		<input  ng-model="filter_name" class="u-full-width" type="text" placeholder="Search">
+	</div>
+    <div class="nine columns" >
+        <div ng-repeat="product in products| limitTo:-4 | filter: filter_name" class="two columns">
+          <img src=" {{product.product_image}}">
+          <p>{{product.product_name}}</p>
+        </div>
+        <h3>Recent Orders</h3>
+        <div ng-repeat="order in orders| limitTo:-4 | filter: filter_name">
+          <p>{{order.customer}} purchased {{order.qty}} {{order.product}} on {{order.created_at | date : 'MMMM d, yyyy'}}</p>
+        </div>
+        <h3>New customers</h3>
+          <div ng-repeat="customer in customers| limitTo:-4 | filter: filter_name">
+          <p>{{customer.customer}} purchased {{customer.qty}} {{customer.product}} on {{customer.created_at | date : 'MMMM d, yyyy'}}</p>
+        </div>
+
+    </div>
+</div>

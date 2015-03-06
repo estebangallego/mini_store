@@ -14,4 +14,12 @@ add a new orders to database (customer, product, qty, date)
 display orders in page 
 search box
 
+Products page
+
+add product database (name, upload image, descrption)
+
+load product image and quantity left
+
+
+
 
